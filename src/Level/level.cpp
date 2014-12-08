@@ -97,11 +97,13 @@ void Level::update() {
       player.update();
       if(player.createBullet == true) {
          player.createBullet = false;
-         glm::ivec2 temp = player.getPosition();
-         temp.y += 64;
+         glm::ivec2 temp;
+         temp.x = 100;
+         temp.y = player.getPosition().y + 64;
          if(sound == true) {
             Mix_PlayChannel(-1, RM::SoundCache->createSound("resources/sounds/PlayerShoot.wav"), 0);
          }
+         printf("%d\n%d\n", temp.x, temp.y);
          playerBullets.emplace_back(temp);
       }
       if(player.createShield == true) {

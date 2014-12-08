@@ -11,7 +11,7 @@ class Entity {
       }
       virtual void update() = 0;
       virtual void draw(SpriteBatch* batch) = 0;
-      const glm::ivec2& getPosition() {
+      const glm::ivec2 getPosition() {
          return glm::ivec2(destRect.x, destRect.y);
       }
    protected:
