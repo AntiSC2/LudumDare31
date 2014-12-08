@@ -10,6 +10,7 @@ class Player : public Entity {
       void init(int x, int y);
       void update();
       void draw(SpriteBatch* batch);
+      int returnY();
       bool createBullet;
       bool createShield;
       bool destroyCrystals;

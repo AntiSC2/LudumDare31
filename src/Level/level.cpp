@@ -19,7 +19,7 @@ int numDigits(int number)
    return digits;
 }
 
-Level::Level(Camera2D* camera) : levelCamera(camera), timerCrystal(0), timerSquadFighter(0),
+Level::Level(Camera2D* camera) : levelCamera(camera), timerCrystal(0), timerSquadFighter(0), sound(true), music(true),
    shield(nullptr), score(0), healthBase(10), spawnTimer(0), gameState(GAMESTATE::MENU), shake(false), shakeTimer(0), showScore(0), once(false) {
    ;
 }
@@ -99,7 +99,7 @@ void Level::update() {
          player.createBullet = false;
          glm::ivec2 temp;
          temp.x = 100;
-         temp.y = player.getPosition().y + 64;
+         temp.y = player.returnY() + 64;
          if(sound == true) {
             Mix_PlayChannel(-1, RM::SoundCache->createSound("resources/sounds/PlayerShoot.wav"), 0);
          }
@@ -311,32 +311,32 @@ void Level::drawLevel(SpriteBatch* batch) {
       batch->draw(glm::vec4(0, 0, 1280, 720), glm::vec4(0, 0, 1, 1), RM::TextureCache->createTexture("resources/textures/tutorial.png")->getID(), 0.0f, Color(255, 255, 255, 255));
       if(once == true) {
          batch->draw(glm::vec4(0, 0, 1280, 720), glm::vec4(0, 0, 1, 1), RM::TextureCache->createTexture("resources/textures/gameover.png")->getID(), 0.0f, Color(255, 255, 255, 255));
-         batch->draw(glm::vec4(364, 250, 256, 256), glm::vec4(0, 0, 1, 1), RM::TextureCache->createTexture("resources/textures/score.png")->getID(), 0.0f, Color(255, 255, 255, 255));
+         batch->draw(glm::vec4(460, 250, 256, 256), glm::vec4(0, 0, 1, 1), RM::TextureCache->createTexture("resources/textures/score.png")->getID(), 0.0f, Color(255, 255, 255, 255));
          int lengthOfScore = numDigits(showScore);
          int offset = 36;
          int x = 0;
          for(int i = 0; i < lengthOfScore; i++) {
             std::string temp(std::to_string(showScore));
             if(temp[i] == '0')
-               batch->draw(glm::vec4(604 + x, 350, 64, 64), glm::vec4(0, 0, 1, 1), RM::TextureCache->createTexture("resources/textures/zero.png")->getID(), 0.0f, Color(255, 255, 255, 255));
+               batch->draw(glm::vec4(700 + x, 350, 64, 64), glm::vec4(0, 0, 1, 1), RM::TextureCache->createTexture("resources/textures/zero.png")->getID(), 0.0f, Color(255, 255, 255, 255));
             else if(temp[i] == '1')
-               batch->draw(glm::vec4(604 + x, 350, 64, 64), glm::vec4(0, 0, 1, 1), RM::TextureCache->createTexture("resources/textures/one.png")->getID(), 0.0f, Color(255, 255, 255, 255));
+               batch->draw(glm::vec4(700 + x, 350, 64, 64), glm::vec4(0, 0, 1, 1), RM::TextureCache->createTexture("resources/textures/one.png")->getID(), 0.0f, Color(255, 255, 255, 255));
             else if(temp[i] == '2')
-               batch->draw(glm::vec4(604 + x, 350, 64, 64), glm::vec4(0, 0, 1, 1), RM::TextureCache->createTexture("resources/textures/two.png")->getID(), 0.0f, Color(255, 255, 255, 255));
+               batch->draw(glm::vec4(700 + x, 350, 64, 64), glm::vec4(0, 0, 1, 1), RM::TextureCache->createTexture("resources/textures/two.png")->getID(), 0.0f, Color(255, 255, 255, 255));
             else if(temp[i] == '3')
-               batch->draw(glm::vec4(604 + x, 350, 64, 64), glm::vec4(0, 0, 1, 1), RM::TextureCache->createTexture("resources/textures/three.png")->getID(), 0.0f, Color(255, 255, 255, 255));
+               batch->draw(glm::vec4(700 + x, 350, 64, 64), glm::vec4(0, 0, 1, 1), RM::TextureCache->createTexture("resources/textures/three.png")->getID(), 0.0f, Color(255, 255, 255, 255));
             else if(temp[i] == '4')
-               batch->draw(glm::vec4(604 + x, 350, 64, 64), glm::vec4(0, 0, 1, 1), RM::TextureCache->createTexture("resources/textures/four.png")->getID(), 0.0f, Color(255, 255, 255, 255));
+               batch->draw(glm::vec4(700 + x, 350, 64, 64), glm::vec4(0, 0, 1, 1), RM::TextureCache->createTexture("resources/textures/four.png")->getID(), 0.0f, Color(255, 255, 255, 255));
             else if(temp[i] == '5')
-               batch->draw(glm::vec4(604 + x, 350, 64, 64), glm::vec4(0, 0, 1, 1), RM::TextureCache->createTexture("resources/textures/five.png")->getID(), 0.0f, Color(255, 255, 255, 255));
+               batch->draw(glm::vec4(700 + x, 350, 64, 64), glm::vec4(0, 0, 1, 1), RM::TextureCache->createTexture("resources/textures/five.png")->getID(), 0.0f, Color(255, 255, 255, 255));
             else if(temp[i] == '6')
-               batch->draw(glm::vec4(604 + x, 350, 64, 64), glm::vec4(0, 0, 1, 1), RM::TextureCache->createTexture("resources/textures/six.png")->getID(), 0.0f, Color(255, 255, 255, 255));
+               batch->draw(glm::vec4(700 + x, 350, 64, 64), glm::vec4(0, 0, 1, 1), RM::TextureCache->createTexture("resources/textures/six.png")->getID(), 0.0f, Color(255, 255, 255, 255));
             else if(temp[i] == '7')
-               batch->draw(glm::vec4(604 + x, 350, 64, 64), glm::vec4(0, 0, 1, 1), RM::TextureCache->createTexture("resources/textures/seven.png")->getID(), 0.0f, Color(255, 255, 255, 255));
+               batch->draw(glm::vec4(700 + x, 350, 64, 64), glm::vec4(0, 0, 1, 1), RM::TextureCache->createTexture("resources/textures/seven.png")->getID(), 0.0f, Color(255, 255, 255, 255));
             else if(temp[i] == '8')
-               batch->draw(glm::vec4(604 + x, 350, 64, 64), glm::vec4(0, 0, 1, 1), RM::TextureCache->createTexture("resources/textures/eight.png")->getID(), 0.0f, Color(255, 255, 255, 255));
+               batch->draw(glm::vec4(700 + x, 350, 64, 64), glm::vec4(0, 0, 1, 1), RM::TextureCache->createTexture("resources/textures/eight.png")->getID(), 0.0f, Color(255, 255, 255, 255));
             else if(temp[i] == '9')
-               batch->draw(glm::vec4(604 + x, 350, 64, 64), glm::vec4(0, 0, 1, 1), RM::TextureCache->createTexture("resources/textures/nine.png")->getID(), 0.0f, Color(255, 255, 255, 255));
+               batch->draw(glm::vec4(700 + x, 350, 64, 64), glm::vec4(0, 0, 1, 1), RM::TextureCache->createTexture("resources/textures/nine.png")->getID(), 0.0f, Color(255, 255, 255, 255));
             x += offset;
          }
       }
@@ -384,8 +384,8 @@ bool Level::collideWithSquad(PlayerBullet& bullet) {
          squadFighters[index].damage();
          return true;
       }
-      return false;
    }
+   return false;
 }
 
 bool Level::collideWithMissiles(PlayerBullet& bullet) {

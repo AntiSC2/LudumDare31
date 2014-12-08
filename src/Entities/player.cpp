@@ -1,7 +1,7 @@
 #include "player.h"
 #include <Input.h>
 
-Player::Player() : speed(5), createBullet(false), createShield(false), destroyCrystals(false), shieldCoolDown(0) {
+Player::Player() : speed(5), createBullet(false), bulletTimer(0), createShield(false), destroyCrystals(false), shieldCoolDown(0), crystalCoolDown(0) {
    destRect.z = 128;
    destRect.w = 128;
 }
@@ -54,4 +54,8 @@ void Player::update() {
 
 void Player::draw(SpriteBatch* batch) {
    sprite.render(batch);
+}
+
+int Player::returnY() {
+   return destRect.y;
 }
